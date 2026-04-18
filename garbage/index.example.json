@@ -1,15 +1,19 @@
 {
   "schema_version": "1.0.0",
-  "project_name": "Research_Workspace",
+  "project_name": "Generic_Project",
   "records": [
     {
-      "id": "GARBAGE-2026-04-17-0001",
+      "id": "GARBAGE-EXAMPLE-0001",
       "archived_paths": [
-        "garbage/records/GARBAGE-2026-04-17-0001.example.md"
+        "garbage/records/GARBAGE-EXAMPLE-0001.example.md"
       ],
       "reason": "Superseded failed smoke artifacts; lesson retained in active memory.",
-      "replacement_ref": "memory/active/events/MEM-2026-04-17-0001.example.md",
-      "created_at": "2026-04-17T19:10:00Z"
+      "retention_reason": "Traceability for a rejected exploratory branch.",
+      "replacement_ref": "memory/active/events/MEM-EXAMPLE-0001.example.md",
+      "derived_lesson_ref": "memory/active/events/MEM-EXAMPLE-0001.example.md",
+      "superseded_by": "runs/primary_iteration/latest/stage_summary.json",
+      "can_restore": false,
+      "created_at": "2026-01-01T00:00:00Z"
     }
   ]
 }
