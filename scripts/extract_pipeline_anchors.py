@@ -8,6 +8,7 @@ import sys
 
 ANCHOR_RE = re.compile(r"\[([A-Z_]+:[A-Za-z0-9_.:-]+)\]")
 
+
 def main() -> int:
     repo_root = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parents[1]
     pipeline_path = repo_root / "PIPELINE.md"
@@ -26,6 +27,7 @@ def main() -> int:
         "anchors": anchors,
     }, indent=2, ensure_ascii=False))
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
