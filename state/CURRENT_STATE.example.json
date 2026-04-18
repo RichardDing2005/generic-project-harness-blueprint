@@ -1,27 +1,31 @@
 {
   "schema_version": "1.0.0",
-  "project_name": "Research_Workspace",
-  "candidate_name": "rw_v1",
-  "formal_stage": "argon_k1_inner",
+  "project_name": "Generic_Project",
+  "candidate_name": "candidate_family_v1",
+  "bootstrap_mode": false,
+  "formal_stage": "primary_iteration",
   "active_subflow_stage": "artifact_analysis_pre",
-  "current_pipeline_anchor": "PIPELINE:stage.argon_k1_inner",
+  "current_pipeline_anchor": "PIPELINE:stage.primary_iteration",
   "current_subflow_anchor": "PIPELINE:subflow.artifact_analysis_pre",
-  "latest_snapshot_ref": "memory/active/snapshots/SNAPSHOT-argon_k1_inner-0001.example.md",
+  "latest_snapshot_ref": "memory/active/snapshots/SNAPSHOT-primary_iteration-0001.example.md",
   "active_memory_refs": [
-    "memory/active/events/MEM-2026-04-17-0001.example.md"
+    "memory/active/events/MEM-EXAMPLE-0001.example.md"
   ],
   "required_artifact_refs": [
     "runs/workflow/latest/workflow_summary.json",
-    "runs/inner_loop/latest/stage_summary.json",
-    "runs/inner_loop/latest/fit_diagnostics.json"
+    "runs/primary_iteration/latest/stage_summary.json",
+    "runs/primary_iteration/latest/diagnostics.json"
+  ],
+  "required_config_refs": [
+    "config/stage_defaults.json"
   ],
   "last_verification": {
     "status": "not_yet_run",
     "source": "",
-    "checked_at": ""
+    "checked_at": "2026-01-01T00:00:00Z"
   },
   "blocked": false,
   "blocking_reason": "",
-  "next_action": "Analyze weak-curve artifacts before proposing a minimal K1 repair strategy.",
-  "updated_at": "2026-04-17T19:00:00Z"
+  "next_action": "Analyze the latest primary-iteration artifacts before proposing a minimal repair strategy.",
+  "updated_at": "2026-01-01T00:00:00Z"
 }

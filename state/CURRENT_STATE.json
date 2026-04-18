@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "Generic_Project",
+  "candidate_name": "",
+  "bootstrap_mode": true,
+  "formal_stage": "bootstrap",
+  "active_subflow_stage": null,
+  "current_pipeline_anchor": "PIPELINE:bootstrap",
+  "current_subflow_anchor": null,
+  "latest_snapshot_ref": null,
+  "active_memory_refs": [],
+  "required_artifact_refs": [],
+  "required_config_refs": [
+    "config/stage_defaults.json"
+  ],
+  "last_verification": {
+    "status": "bootstrap",
+    "source": "bootstrap initialization",
+    "checked_at": "2026-01-01T00:00:00Z"
+  },
+  "blocked": false,
+  "blocking_reason": "",
+  "next_action": "Survey the repository, determine the first formal stage, and write the first memory event before leaving bootstrap mode.",
+  "updated_at": "2026-01-01T00:00:00Z"
+}
