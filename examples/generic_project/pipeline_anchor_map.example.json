@@ -1,0 +1,8 @@
+{
+  "bootstrap_anchor": "PIPELINE:bootstrap",
+  "formal_stage_anchor": "PIPELINE:stage.primary_iteration",
+  "default_subflow_anchor": "PIPELINE:subflow.stage_identification",
+  "active_subflow_anchor": "PIPELINE:subflow.artifact_analysis_pre",
+  "example_stage_exit_anchor": "EXIT:primary_iteration",
+  "example_gate_anchor": "VERIFY:gate_review"
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "Generic_Project",
+  "candidate_name": "candidate_family_v1",
+  "bootstrap_mode": false,
+  "formal_stage": "primary_iteration",
+  "active_subflow_stage": "artifact_analysis_pre",
+  "current_pipeline_anchor": "PIPELINE:stage.primary_iteration",
+  "current_subflow_anchor": "PIPELINE:subflow.artifact_analysis_pre",
+  "latest_snapshot_ref": "memory/active/snapshots/SNAPSHOT-primary_iteration-0001.example.md",
+  "active_memory_refs": [
+    "memory/active/events/MEM-EXAMPLE-0001.example.md"
+  ],
+  "required_artifact_refs": [
+    "runs/workflow/latest/workflow_summary.json",
+    "runs/primary_iteration/latest/stage_summary.json",
+    "runs/primary_iteration/latest/diagnostics.json"
+  ],
+  "required_config_refs": [
+    "config/stage_defaults.json"
+  ],
+  "last_verification": {
+    "status": "not_yet_run",
+    "source": "",
+    "checked_at": "2026-01-01T00:00:00Z"
+  },
+  "blocked": false,
+  "blocking_reason": "",
+  "next_action": "Analyze the latest primary-iteration artifacts before proposing a minimal repair strategy.",
+  "updated_at": "2026-01-01T00:00:00Z"
+}
