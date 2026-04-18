@@ -1,5 +1,7 @@
 # Generic Project Harness Blueprint
 
+Language: [English](README.md) | [中文](README.Chinese-Ver.md)
+
 A clean, publishable blueprint for long-horizon projects that need a stable control kernel, explicit workflow stages, structured memory, and controlled forgetting.
 
 This repository uses a **kernel-centric harness** model:
