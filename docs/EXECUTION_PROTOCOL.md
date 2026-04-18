@@ -6,14 +6,17 @@ The canonical execution order is:
 
 1. read `AGENTS.md`
 2. read `state/CURRENT_STATE.json`
-3. resolve anchors in `PIPELINE.md`
-4. read memory snapshot and referenced events
-5. inspect required artifacts
-6. execute the minimal justified action
-7. verify the result
-8. write memory
-9. update state
-10. retire garbage if needed
+3. if bootstrap mode is active, resolve `PIPELINE:bootstrap`
+4. otherwise resolve the current anchors in `PIPELINE.md`
+5. read the config files listed in `required_config_refs`
+6. read `memory/index.json`
+7. read the snapshot and events named by state, if present
+8. inspect required artifacts
+9. execute the minimal justified action
+10. verify the result
+11. write memory
+12. update state
+13. retire garbage if needed
 
 ## State-first, but under AGENTS control
 
@@ -24,32 +27,48 @@ The practical phrasing is:
 This keeps the architecture conceptually clean:
 
 - `AGENTS.md` is the kernel,
-- `STATE` is the first runtime operand.
+- `STATE` is the first runtime operand,
+- `PIPELINE.md` provides the stage-local semantics,
+- `MEMORY` provides the required historical evidence,
+- `config/` provides the stage-required operational defaults.
 
-## Required writeback sequence
+## Pointer authority
 
-After any meaningful action:
+`STATE` is authoritative for the current round.
 
-1. write memory event,
-2. if understanding changed materially, write snapshot,
-3. update state,
-4. if noise became invalid, move it to `garbage/` and index it.
+If `memory/index.json` points somewhere else:
 
-Do not update state before memory is written.
+- execute using `STATE`,
+- record the mismatch,
+- reconcile the index before the round closes.
 
-## Failure handling
+## Reading discipline
 
-If an action fails:
+Never load the entire repository by default.
 
-1. write a failure event,
-2. decide whether the raw failure detail belongs in active memory or garbage,
-3. preserve the lesson if one exists,
-4. update state with the blocking condition or next action.
+Read only:
 
-## Single-round policy
+- the current stage and subflow anchors,
+- the config files named by state,
+- the latest snapshot named by state,
+- the event refs pointed to by state,
+- the artifacts required by the current stage.
 
-For the active repair subflow:
+## Single-round policy for active repair
+
+For the default active repair subflow:
 
 - do one full round,
 - stop and summarize,
 - do not automatically start round two.
+
+This prevents silent drift and keeps memory snapshots meaningful.
+
+## Failure handling
+
+When a step fails:
+
+1. record an event,
+2. decide whether the raw failure detail belongs in active memory or garbage,
+3. preserve the lesson if one exists,
+4. update state with the blocking condition or next action.

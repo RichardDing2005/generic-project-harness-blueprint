@@ -8,6 +8,7 @@ The repository distinguishes:
 
 - **events** — granular step records
 - **snapshots** — compressed stage-level summaries
+- **index** — discovery metadata only
 
 ## 2. Event records
 
@@ -15,6 +16,7 @@ An event records one meaningful action or one meaningful observation.
 
 Typical event types:
 
+- `bootstrap`
 - `stage_identification`
 - `artifact_analysis`
 - `decision`
@@ -24,6 +26,7 @@ Typical event types:
 - `verification`
 - `lesson`
 - `blocker`
+- `pointer_mismatch`
 
 ## 3. Snapshots
 
@@ -44,33 +47,18 @@ Use compression when the old material still matters but is too long.
 ### Forget / garbage
 Use forgetting when the old raw material no longer deserves a place in active context.
 
-Examples of compress-worthy material:
-- several repeated observations that converge on one diagnosis,
-- many small implementation events that culminate in one stage result.
-
-Examples of garbage-worthy material:
-- invalid smoke artifacts,
-- superseded exploratory analysis,
-- large verbose logs whose lessons were already extracted,
-- abandoned intermediate outputs.
-
 ## 5. Preserve negative knowledge
 
 Do not keep noisy failed runs in active memory if they are not useful.  
 Do keep the lesson if the failure established something real.
 
-Example:
-- raw run files move to `garbage/`
-- one event remains in `memory/` saying:
-  "Repair strategy X flattened Vr=0 valleys and should not be reused."
-
 ## 6. Index discipline
 
 `memory/index.json` should point to:
 
-- active snapshot
-- recent events
-- garbage policy version
-- last update time
+- active snapshot for discovery,
+- recent events,
+- garbage policy version,
+- last update time.
 
-It should not become a second giant memory document.
+It must not become a second giant memory document and it must not replace `STATE` as the active-round pointer.

@@ -4,63 +4,60 @@
 
 This repository uses a **kernel-centric harness**.
 
-The runtime is driven by four core layers:
+The runtime is driven by five layers:
 
 - `AGENTS.md` — execution kernel
 - `PIPELINE.md` — project specification
 - `state/` — execution pointer
 - `memory/` — structured historical record
-
-A fifth support layer exists:
-
 - `garbage/` — retired noise and superseded artifacts
+
+`config/` acts as a required support layer for stage defaults, gates, and operational thresholds.
 
 ## 2. Why this architecture
 
-The uploaded sample project already had good bones:
+Long-horizon projects repeatedly run into the same failure mode: **control diffusion**.
 
-- stage names were explicit,
-- outputs were organized under `runs/`,
-- training and review were separated,
-- the active K1 repair subflow was clearly narrower than the full workflow.
-
-The main problem was not missing concepts. The main problem was **control diffusion**:
-
-- part of the behavior lived in the pipeline text,
-- part in a generated skill,
-- part in the prompt,
-- and part in the scripts.
+Part of the behavior lives in prompts, part in one-off scripts, part in ad hoc notes, and part in short-term model context. That makes the workflow fragile.
 
 This architecture consolidates control:
 
 - always-on control goes into `AGENTS.md`,
 - project detail goes into `PIPELINE.md`,
 - current position goes into `STATE`,
-- evidence goes into `MEMORY`.
+- evidence goes into `MEMORY`,
+- retired noise goes into `garbage/`,
+- configurable thresholds stay in `config/`.
 
 ## 3. Runtime data model
 
 ### 3.1 AGENTS.md
 Stores:
 - read order,
+- bootstrap handling,
 - execution cycle,
 - writeback rules,
 - escalation conditions,
+- pointer authority,
 - garbage rules.
 
 ### 3.2 PIPELINE.md
 Stores:
-- stage definitions,
+- bootstrap stage,
+- formal stage definitions,
 - stage-local reads,
 - stage-local verification,
 - stage exits,
-- active subflow.
+- subflow defaults,
+- active subflow definitions.
 
 ### 3.3 STATE
 Stores:
+- bootstrap flag,
 - current stage,
 - current subflow step,
 - anchor pointers,
+- config refs,
 - memory refs,
 - blocking status,
 - next action.
@@ -69,14 +66,14 @@ Stores:
 Stores:
 - event records,
 - compressed snapshots,
-- index references.
+- discovery index.
 
 ### 3.5 garbage/
 Stores:
 - invalidated runs,
 - superseded reports,
 - retired logs,
-- garbage index entries.
+- retirement index entries.
 
 ## 4. Intended scaling behavior
 
@@ -86,6 +83,7 @@ As the project grows:
 - `STATE` stays small.
 - `MEMORY` grows through events and snapshots.
 - `garbage/` prevents obsolete history from polluting the active context.
+- `config/` remains the place for concrete gate values and defaults.
 
 ## 5. Context strategy
 
@@ -95,23 +93,8 @@ Instead:
 
 1. state selects the stage,
 2. stage selects the relevant pipeline anchors,
-3. pipeline determines which artifacts matter,
-4. memory provides only the latest relevant summary and event chain.
+3. state names the required config,
+4. pipeline determines which artifacts matter,
+5. memory provides only the latest relevant summary and event chain.
 
 This keeps context bounded without erasing historical traceability.
-
-## 6. When to add optional skills later
-
-A separate skill is justified only if all of these hold:
-
-- it is not always-on,
-- it is reusable across projects,
-- it is costly enough that lazy loading matters,
-- it should be isolated from the core loop.
-
-Examples:
-- a heavy reporting skill,
-- a paper-ready figure packaging skill,
-- a benchmark comparison skill shared across repositories.
-
-The base control architecture should remain skill-free.

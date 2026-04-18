@@ -14,21 +14,21 @@ It is a **controlled retirement area** for:
 
 Suitable garbage candidates:
 
-- failed smoke artifacts after the failure lesson is preserved
-- obsolete fit plots replaced by a newer accepted run
-- superseded local scan reports
-- abandoned experiment branches
-- overly long analysis logs whose conclusions have already been promoted
+- failed smoke artifacts after the failure lesson is preserved,
+- obsolete diagnostic outputs replaced by a newer accepted run,
+- superseded exploratory reports,
+- abandoned branches or work products,
+- overly long analysis logs whose conclusions have already been promoted.
 
 ## 3. What does not belong here
 
 Do not send these to garbage unless replaced elsewhere:
 
-- the active stage summary
-- the latest accepted snapshot
-- current state
-- the only record of a meaningful decision
-- the only record of a research lesson
+- the active stage summary,
+- the latest accepted snapshot,
+- current state,
+- the only record of a meaningful decision,
+- the only record of a project lesson.
 
 ## 4. Required bookkeeping
 
@@ -36,9 +36,11 @@ Every move into `garbage/` must create:
 
 1. a physical archived file or record,
 2. an entry in `garbage/index.json`,
-3. a reason,
+3. a retirement reason,
 4. an optional `replacement_ref`,
-5. a link to the lesson preserved in active memory if relevant.
+5. an optional `derived_lesson_ref`,
+6. an optional `superseded_by`,
+7. a `can_restore` flag.
 
 ## 5. Retention model
 
