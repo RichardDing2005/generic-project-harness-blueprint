@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MemoryEventFrontmatter",
+  "type": "object",
+  "required": [
+    "id",
+    "event_type",
+    "formal_stage",
+    "pipeline_anchor",
+    "status",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string"
+    },
+    "formal_stage": {
+      "type": "string"
+    },
+    "active_subflow_stage": {
+      "type": "string"
+    },
+    "pipeline_anchor": {
+      "type": "string"
+    },
+    "subflow_anchor": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "superseded",
+        "garbage_candidate",
+        "archived"
+      ]
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "replacement_ref": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    }
+  }
+}

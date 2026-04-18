@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MemorySnapshotFrontmatter",
+  "type": "object",
+  "required": [
+    "id",
+    "formal_stage",
+    "pipeline_anchor",
+    "snapshot_scope",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "formal_stage": {
+      "type": "string"
+    },
+    "pipeline_anchor": {
+      "type": "string"
+    },
+    "snapshot_scope": {
+      "type": "string"
+    },
+    "source_event_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string"
+    }
+  }
+}

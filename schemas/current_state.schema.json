@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CurrentState",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project_name",
+    "formal_stage",
+    "current_pipeline_anchor",
+    "latest_snapshot_ref",
+    "active_memory_refs",
+    "blocked",
+    "next_action",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "project_name": {
+      "type": "string"
+    },
+    "candidate_name": {
+      "type": "string"
+    },
+    "formal_stage": {
+      "type": "string"
+    },
+    "active_subflow_stage": {
+      "type": "string"
+    },
+    "current_pipeline_anchor": {
+      "type": "string",
+      "pattern": "^[A-Z_]+:[A-Za-z0-9_.-]+$|^PIPELINE:[A-Za-z0-9_.:-]+$"
+    },
+    "current_subflow_anchor": {
+      "type": "string"
+    },
+    "latest_snapshot_ref": {
+      "type": "string"
+    },
+    "active_memory_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "last_verification": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "checked_at": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "source",
+        "checked_at"
+      ]
+    },
+    "blocked": {
+      "type": "boolean"
+    },
+    "blocking_reason": {
+      "type": "string"
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  }
+}
