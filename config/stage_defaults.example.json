@@ -1,0 +1,48 @@
+{
+  "runtime": {
+    "seed": 0,
+    "device": "auto",
+    "comparison_baseline": "v23",
+    "epoch_budget_context": "k1_live_cutover_mid_budget_3500",
+    "argon_k1_live_epochs": 3500
+  },
+  "argon": {
+    "weak_curve_vr_values": [
+      0.0,
+      8.0,
+      10.0
+    ],
+    "k1_ready_rmse_ratio_limit": 1.05,
+    "local_scan": {
+      "peak_half_width": 1.6,
+      "valley_half_width": 1.6,
+      "prominence_frac": 0.04,
+      "distance_points": 8,
+      "minimum_points": 5
+    }
+  },
+  "mercury": {
+    "fixed_vr_value": 1.5,
+    "local_scan": {
+      "peak_half_width": 1.2,
+      "valley_half_width": 1.2,
+      "prominence_frac": 0.025,
+      "distance_points": 6,
+      "minimum_points": 5
+    }
+  },
+  "local_scan": {
+    "drop_first_peak": true,
+    "drop_first_valley": true
+  },
+  "level_scan": {
+    "levels": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  }
+}
