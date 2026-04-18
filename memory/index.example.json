@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "Research_Workspace",
+  "active_snapshot": "memory/active/snapshots/SNAPSHOT-argon_k1_inner-0001.example.md",
+  "recent_events": [
+    "memory/active/events/MEM-2026-04-17-0001.example.md"
+  ],
+  "garbage_policy_version": "1.0.0",
+  "updated_at": "2026-04-17T19:00:00Z"
+}
