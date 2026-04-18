@@ -1,14 +1,14 @@
 ---
-id: MEM-YYYY-MM-DD-XXXX
+id: MEM-EXAMPLE-0000
 event_type: decision
-formal_stage: argon_k1_inner
+formal_stage: primary_iteration
 active_subflow_stage: minimal_repair_strategy
-pipeline_anchor: PIPELINE:stage.argon_k1_inner
+pipeline_anchor: PIPELINE:stage.primary_iteration
 subflow_anchor: PIPELINE:subflow.minimal_repair_strategy
 status: active
 artifact_refs: []
 replacement_ref: ""
-created_at: YYYY-MM-DDTHH:MM:SSZ
+created_at: 2026-01-01T00:00:00Z
 ---
 
 # Summary

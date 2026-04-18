@@ -1,10 +1,10 @@
 ---
-id: SNAPSHOT-stage-name-XXXX
-formal_stage: argon_k1_inner
-pipeline_anchor: PIPELINE:stage.argon_k1_inner
+id: SNAPSHOT-primary_iteration-0000
+formal_stage: primary_iteration
+pipeline_anchor: PIPELINE:stage.primary_iteration
 snapshot_scope: single_round
 source_event_refs: []
-created_at: YYYY-MM-DDTHH:MM:SSZ
+created_at: 2026-01-01T00:00:00Z
 ---
 
 # Current Understanding
