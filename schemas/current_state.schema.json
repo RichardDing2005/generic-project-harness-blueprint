@@ -2,13 +2,16 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CurrentState",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "schema_version",
     "project_name",
+    "bootstrap_mode",
     "formal_stage",
     "current_pipeline_anchor",
-    "latest_snapshot_ref",
     "active_memory_refs",
+    "required_artifact_refs",
+    "required_config_refs",
     "blocked",
     "next_action",
     "updated_at"
@@ -18,26 +21,47 @@
       "type": "string"
     },
     "project_name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "candidate_name": {
       "type": "string"
     },
+    "bootstrap_mode": {
+      "type": "boolean"
+    },
     "formal_stage": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "bootstrap",
+        "primary_iteration",
+        "gate_review",
+        "downstream_iteration",
+        "integration_review",
+        "external_validation"
+      ]
     },
     "active_subflow_stage": {
-      "type": "string"
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "current_pipeline_anchor": {
       "type": "string",
-      "pattern": "^[A-Z_]+:[A-Za-z0-9_.-]+$|^PIPELINE:[A-Za-z0-9_.:-]+$"
+      "pattern": "^(PIPELINE|RULE|DATA|ARTIFACT|GOAL|SCOPE|READS|FOCUS|VERIFY|EXIT|MEMORY_WRITE|STATUS|SUBFLOW_DEFAULT):[A-Za-z0-9_.:-]+$"
     },
     "current_subflow_anchor": {
-      "type": "string"
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "latest_snapshot_ref": {
-      "type": "string"
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "active_memory_refs": {
       "type": "array",
@@ -51,17 +75,36 @@
         "type": "string"
       }
     },
+    "required_config_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "last_verification": {
-      "type": "object",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
       "properties": {
         "status": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "bootstrap",
+            "not_yet_run",
+            "pass",
+            "fail",
+            "warning",
+            "blocked"
+          ]
         },
         "source": {
           "type": "string"
         },
         "checked_at": {
-          "type": "string"
+          "type": "string",
+          "format": "date-time"
         }
       },
       "required": [
@@ -77,10 +120,64 @@
       "type": "string"
     },
     "next_action": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "updated_at": {
-      "type": "string"
+      "type": "string",
+      "format": "date-time"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "bootstrap_mode": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "formal_stage": {
+            "const": "bootstrap"
+          },
+          "current_pipeline_anchor": {
+            "const": "PIPELINE:bootstrap"
+          },
+          "latest_snapshot_ref": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "latest_snapshot_ref"
+        ],
+        "properties": {
+          "latest_snapshot_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "current_subflow_anchor": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "active_subflow_stage": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
 }

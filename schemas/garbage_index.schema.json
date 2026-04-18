@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "GarbageIndex",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "schema_version",
     "project_name",
@@ -12,17 +13,20 @@
       "type": "string"
     },
     "project_name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "records": {
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "id",
           "archived_paths",
           "reason",
-          "replacement_ref",
+          "retention_reason",
+          "can_restore",
           "created_at"
         ],
         "properties": {
@@ -38,11 +42,24 @@
           "reason": {
             "type": "string"
           },
+          "retention_reason": {
+            "type": "string"
+          },
           "replacement_ref": {
             "type": "string"
           },
-          "created_at": {
+          "derived_lesson_ref": {
             "type": "string"
+          },
+          "superseded_by": {
+            "type": "string"
+          },
+          "can_restore": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }
