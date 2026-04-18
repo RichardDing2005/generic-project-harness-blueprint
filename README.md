@@ -1,68 +1,45 @@
-# Research Workspace Harness Architecture
+# Generic Project Harness Blueprint
 
-A **kernel-centric harness blueprint** for long-horizon research and code-iteration projects.
+A clean, publishable blueprint for long-horizon projects that need a stable control kernel, explicit workflow stages, structured memory, and controlled forgetting.
 
-This repository distills the usable parts of the uploaded `Research_Workspace` example into a cleaner, more open-source-ready architecture. The design intentionally avoids a mandatory outer-loop skill. Instead, it treats:
+This repository uses a **kernel-centric harness** model:
 
-- `AGENTS.md` as the **always-on runtime kernel**
-- `PIPELINE.md` as the **project-specific specification**
-- `state/` as the **current execution pointer**
-- `memory/` as the **structured historical record**
-- `garbage/` as the **archive for superseded noise, invalid runs, and retired artifacts**
+- `AGENTS.md` defines the always-on runtime protocol
+- `PIPELINE.md` defines the project workflow and stage semantics
+- `state/` stores the current execution pointer
+- `memory/` stores useful historical evidence
+- `garbage/` stores retired noise and superseded artifacts
+- `config/` stores stage defaults and operational thresholds
+
+The blueprint supports both:
+
+- **fresh starts** from an empty project
+- **retrofits** for projects that already contain code, outputs, and partial history
 
 ## Design goals
 
-1. Keep the harness **highly integrated**, not fragmented across many small control files.
-2. Make long-running work **recoverable** after interruption.
-3. Keep stage logic **explicit** and **machine-locatable** through stable anchors.
-4. Prevent context bloat by separating:
-   - active memory
-   - stage snapshots
-   - garbage / retired records
-5. Make the repository usable as a **public architecture package** without requiring a separate orchestration skill.
-
-## What was retained from the sample project
-
-The following ideas were preserved because they are structurally strong:
-
-- A stage-based formal workflow with named gates.
-- A separate active subflow for the current research focus.
-- A clear distinction between:
-  - training stages
-  - review stages
-  - support scans
-- Artifact-first iteration: inspect the latest outputs before deciding the next action.
-- Configuration-driven thresholds and stage defaults.
-- Output organization under `runs/`.
-
-## What was intentionally changed
-
-The following changes make the architecture more coherent:
-
-- The outer-loop skill is removed as a required control layer.
-- `AGENTS.md` becomes the primary runtime kernel.
-- `PIPELINE.md` becomes the single detailed project specification, with stable anchors.
-- `STATE` is reduced to a small control pointer rather than a giant status document.
-- `MEMORY` is structured into events and snapshots.
-- Historical noise is not merely compressed; it can be retired into `garbage/`.
-- Generated summaries should use **relative paths only**, never machine-specific absolute paths.
-- The repository now supports **bootstrap mode** for zero-start or retrofit initialization.
+1. Keep control logic centralized and explicit.
+2. Support restartable multi-round work.
+3. Keep workflow stages machine-locatable through stable anchors.
+4. Prevent context bloat with snapshots and retirement.
+5. Preserve useful failure lessons without keeping all raw noise active.
+6. Remain clean enough for direct public release.
 
 ## Repository layout
 
 ```text
-Research_Workspace_Harness_Architecture/
+generic-project-harness-blueprint/
 ├── README.md
 ├── LICENSE
 ├── AGENTS.md
 ├── PIPELINE.md
-├── CONTRIBUTING.md
+├── CONTRIBUTIONS.md
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── EXECUTION_PROTOCOL.md
 │   ├── MEMORY_POLICY.md
 │   ├── GARBAGE_POLICY.md
-│   ├── MIGRATION_NOTES_FROM_SAMPLE.md
+│   ├── ADOPTION_GUIDE.md
 │   └── OPTIMIZATION_NOTES.md
 ├── state/
 │   ├── README.md
@@ -74,9 +51,9 @@ Research_Workspace_Harness_Architecture/
 │   ├── index.example.json
 │   ├── active/
 │   │   ├── events/
-│   │   │   └── MEM-2026-04-17-0001.example.md
+│   │   │   └── MEM-EXAMPLE-0001.example.md
 │   │   └── snapshots/
-│   │       └── SNAPSHOT-argon_k1_inner-0001.example.md
+│   │       └── SNAPSHOT-primary_iteration-0001.example.md
 │   └── templates/
 │       ├── memory_event.template.md
 │       └── memory_snapshot.template.md
@@ -85,7 +62,7 @@ Research_Workspace_Harness_Architecture/
 │   ├── index.json
 │   ├── index.example.json
 │   └── records/
-│       └── GARBAGE-2026-04-17-0001.example.md
+│       └── GARBAGE-EXAMPLE-0001.example.md
 ├── schemas/
 │   ├── current_state.schema.json
 │   ├── memory_index.schema.json
@@ -101,7 +78,7 @@ Research_Workspace_Harness_Architecture/
 │   ├── garbage_collect.py
 │   └── init_project.py
 └── examples/
-    └── research_workspace/
+    └── generic_project/
         ├── CURRENT_STATE.example.json
         ├── pipeline_anchor_map.example.json
         ├── memory_event.example.md
@@ -110,31 +87,39 @@ Research_Workspace_Harness_Architecture/
 
 ## Quick start
 
+### Fresh start
+
 1. Read `AGENTS.md`.
-2. If runtime files do not exist, run `python scripts/init_project.py --project-name <your_project_name>`.
-3. Open `state/CURRENT_STATE.json` or inspect `state/CURRENT_STATE.example.json`.
+2. Initialize runtime files if needed:
+
+```bash
+python scripts/init_project.py --project-name <your_project_name>
+```
+
+3. Open `state/CURRENT_STATE.json`.
 4. Resolve the anchors stored in state against `PIPELINE.md`.
-5. Load the referenced memory snapshot and recent event records, if they exist.
-6. Act according to the active stage rules.
-7. Write back:
-   - one event
-   - optional snapshot
-   - updated state
-   - updated memory index
-8. Retire obsolete noise to `garbage/`.
+5. Read the config files listed in `required_config_refs`.
+6. If a snapshot exists, load it together with the event refs named in state.
+7. Inspect the required artifacts.
+8. Act according to the active stage and subflow rules.
+9. Write back state, memory, and optional garbage records.
+
+### Retrofit
+
+1. Add the blueprint files to an existing repository.
+2. Run `scripts/init_project.py`.
+3. Rewrite `PIPELINE.md` so the stage rules match the real project.
+4. Promote useful historical knowledge into `memory/`.
+5. Retire obsolete raw material into `garbage/` only after preserving any lesson.
 
 ## Why there is no mandatory outer-loop skill
 
-This repository follows a **kernel-centric harness** model. If a control rule is always-on, project-specific, and should be read every run, it belongs in `AGENTS.md`, not in a separate lazily-loaded skill.
+If a control rule is:
 
-Optional skills may still be added later for heavy, reusable, non-core operations. They are intentionally **not** part of the base control architecture.
+- always active,
+- project-specific,
+- and required on every run,
 
-## Recommended next step
+it belongs in `AGENTS.md`, not in a lazily loaded skill.
 
-Merge the following files first if you want to retrofit the uploaded sample project:
-
-- `AGENTS.md`
-- `PIPELINE.md`
-- `state/CURRENT_STATE.example.json`
-- `memory/README.md`
-- `garbage/README.md`
+Optional skills may still be added later for heavy, reusable, non-core operations.
