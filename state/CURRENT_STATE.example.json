@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "Research_Workspace",
+  "candidate_name": "rw_v1",
+  "formal_stage": "argon_k1_inner",
+  "active_subflow_stage": "artifact_analysis_pre",
+  "current_pipeline_anchor": "PIPELINE:stage.argon_k1_inner",
+  "current_subflow_anchor": "PIPELINE:subflow.artifact_analysis_pre",
+  "latest_snapshot_ref": "memory/active/snapshots/SNAPSHOT-argon_k1_inner-0001.example.md",
+  "active_memory_refs": [
+    "memory/active/events/MEM-2026-04-17-0001.example.md"
+  ],
+  "required_artifact_refs": [
+    "runs/workflow/latest/workflow_summary.json",
+    "runs/inner_loop/latest/stage_summary.json",
+    "runs/inner_loop/latest/fit_diagnostics.json"
+  ],
+  "last_verification": {
+    "status": "not_yet_run",
+    "source": "",
+    "checked_at": ""
+  },
+  "blocked": false,
+  "blocking_reason": "",
+  "next_action": "Analyze weak-curve artifacts before proposing a minimal K1 repair strategy.",
+  "updated_at": "2026-04-17T19:00:00Z"
+}
