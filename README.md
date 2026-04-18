@@ -46,6 +46,7 @@ The following changes make the architecture more coherent:
 - `MEMORY` is structured into events and snapshots.
 - Historical noise is not merely compressed; it can be retired into `garbage/`.
 - Generated summaries should use **relative paths only**, never machine-specific absolute paths.
+- The repository now supports **bootstrap mode** for zero-start or retrofit initialization.
 
 ## Repository layout
 
@@ -65,9 +66,11 @@ Research_Workspace_Harness_Architecture/
 │   └── OPTIMIZATION_NOTES.md
 ├── state/
 │   ├── README.md
+│   ├── CURRENT_STATE.json
 │   └── CURRENT_STATE.example.json
 ├── memory/
 │   ├── README.md
+│   ├── index.json
 │   ├── index.example.json
 │   ├── active/
 │   │   ├── events/
@@ -79,6 +82,7 @@ Research_Workspace_Harness_Architecture/
 │       └── memory_snapshot.template.md
 ├── garbage/
 │   ├── README.md
+│   ├── index.json
 │   ├── index.example.json
 │   └── records/
 │       └── GARBAGE-2026-04-17-0001.example.md
@@ -89,11 +93,13 @@ Research_Workspace_Harness_Architecture/
 │   ├── memory_snapshot.schema.json
 │   └── garbage_index.schema.json
 ├── config/
+│   ├── stage_defaults.json
 │   └── stage_defaults.example.json
 ├── scripts/
 │   ├── extract_pipeline_anchors.py
 │   ├── validate_state.py
-│   └── garbage_collect.py
+│   ├── garbage_collect.py
+│   └── init_project.py
 └── examples/
     └── research_workspace/
         ├── CURRENT_STATE.example.json
@@ -105,15 +111,17 @@ Research_Workspace_Harness_Architecture/
 ## Quick start
 
 1. Read `AGENTS.md`.
-2. Open `state/CURRENT_STATE.json` or a copy of `CURRENT_STATE.example.json`.
-3. Resolve the anchors stored in state against `PIPELINE.md`.
-4. Load the referenced memory snapshot and recent event records.
-5. Act according to the active stage rules.
-6. Write back:
+2. If runtime files do not exist, run `python scripts/init_project.py --project-name <your_project_name>`.
+3. Open `state/CURRENT_STATE.json` or inspect `state/CURRENT_STATE.example.json`.
+4. Resolve the anchors stored in state against `PIPELINE.md`.
+5. Load the referenced memory snapshot and recent event records, if they exist.
+6. Act according to the active stage rules.
+7. Write back:
    - one event
    - optional snapshot
    - updated state
-7. Retire obsolete noise to `garbage/`.
+   - updated memory index
+8. Retire obsolete noise to `garbage/`.
 
 ## Why there is no mandatory outer-loop skill
 
